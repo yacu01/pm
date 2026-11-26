@@ -174,3 +174,7 @@ cython_debug/
 
 .DS_Store
 
+
+# Frontend export copied into the backend image
+backend/static/
+backend/data/

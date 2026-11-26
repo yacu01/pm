@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BoardData",
+  "description": "One Kanban board, stored as JSON in boards.data. Matches the frontend BoardData type.",
+  "type": "object",
+  "required": ["columns", "cards"],
+  "additionalProperties": false,
+  "properties": {
+    "columns": {
+      "description": "The fixed columns, in display order.",
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/column" }
+    },
+    "cards": {
+      "description": "All cards on the board, keyed by card id.",
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/card" }
+    }
+  },
+  "$defs": {
+    "column": {
+      "type": "object",
+      "required": ["id", "title", "cardIds"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "cardIds": {
+          "description": "Ids of the cards in this column, in display order.",
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "card": {
+      "type": "object",
+      "required": ["id", "title", "details"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "details": { "type": "string" }
+      }
+    }
+  }
+}
