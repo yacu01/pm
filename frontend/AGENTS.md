@@ -10,10 +10,11 @@ NextJS 16 (App Router), React 19, TypeScript, Tailwind CSS 4. Built as a static 
 - `src/lib/kanban.ts` - types (`Card`, `Column`, `BoardData`), `initialData` (5 columns, 8 cards), `moveCard` (reorder within or move between columns), `createId`
 - `src/lib/api.ts` - fetch helpers: `getMe`, `login`, `logout`, `sendChat` (POST `/api/chat` with message and history)
 - `src/components/LoginForm.tsx` - username/password form; shows an error on failed login
-- `src/components/ChatSidebar.tsx` - AI chat drawer (closed by default, "Open AI chat" button): message list, input, purple Send button, "Thinking..." loading state, error message. History lives in its React state and is sent with each message; a `board` in the response is passed to `onBoardUpdate`
-- `src/components/KanbanBoard.tsx` - owns board state; renders `ChatSidebar` (which can replace the board); Log out button in header (`onLogout` prop); dnd-kit `DndContext` with drag overlay; handlers for move, rename column, add, edit and delete card
-- `src/components/KanbanColumn.tsx` - droppable column; editable title input; sortable card list; `NewCardForm`
-- `src/components/KanbanCard.tsx` - sortable card with title, details, and an Edit / Remove button row underneath; edit swaps in an inline form (drag disabled while editing)
+- `src/components/icons.tsx` - inline SVG icons (pencil, trash, plus, close, chat, send, log out)
+- `src/components/ChatSidebar.tsx` - AI chat drawer (`isOpen` / `onClose` props; opened from the header "AI chat" button): message list, input, purple Send button, "Thinking..." loading state, error message. History lives in its React state and is sent with each message; a `board` in the response is passed to `onBoardUpdate`
+- `src/components/KanbanBoard.tsx` - owns board state; full-height layout: slim header (title, card count, AI chat and Log out buttons), then a horizontally scrolling grid of columns (min 220px each); holds chat open state and renders `ChatSidebar` (which can replace the board); dnd-kit `DndContext` with drag overlay; handlers for move, rename column, add, edit and delete card
+- `src/components/KanbanColumn.tsx` - droppable column; editable title input with card count badge; vertically scrolling sortable card list; `NewCardForm`
+- `src/components/KanbanCard.tsx` - sortable card with title, details, and pencil / trash icon buttons at the top right (shown on hover or focus); edit swaps in an inline form (drag disabled while editing)
 - `src/components/KanbanCardPreview.tsx` - card shown while dragging
 - `src/components/NewCardForm.tsx` - toggleable form to add a card (title required, details optional)
 

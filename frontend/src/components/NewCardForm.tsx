@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { PlusIcon } from "@/components/icons";
 
 const initialFormState = { title: "", details: "" };
 
@@ -21,7 +22,7 @@ export const NewCardForm = ({ onAdd }: NewCardFormProps) => {
   };
 
   return (
-    <div className="mt-4">
+    <div className="mt-3">
       {isOpen ? (
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
@@ -65,8 +66,9 @@ export const NewCardForm = ({ onAdd }: NewCardFormProps) => {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="w-full rounded-full border border-dashed border-[var(--stroke)] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--primary-blue)] transition hover:border-[var(--primary-blue)]"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-[var(--stroke)] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--primary-blue)] transition hover:border-[var(--primary-blue)] hover:bg-[var(--surface)]"
         >
+          <PlusIcon />
           Add a card
         </button>
       )}

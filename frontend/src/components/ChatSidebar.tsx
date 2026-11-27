@@ -2,13 +2,15 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import clsx from "clsx";
 import { sendChat, type ChatMessage } from "@/lib/api";
 import type { BoardData } from "@/lib/kanban";
+import { CloseIcon, SendIcon } from "@/components/icons";
 
 type ChatSidebarProps = {
+  isOpen: boolean;
+  onClose: () => void;
   onBoardUpdate: (board: BoardData) => void;
 };
 
-export const ChatSidebar = ({ onBoardUpdate }: ChatSidebarProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const ChatSidebar = ({ isOpen, onClose, onBoardUpdate }: ChatSidebarProps) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -44,21 +46,13 @@ export const ChatSidebar = ({ onBoardUpdate }: ChatSidebarProps) => {
   };
 
   if (!isOpen) {
-    return (
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-10 rounded-full bg-[var(--secondary-purple)] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white shadow-[var(--shadow)] transition hover:brightness-110"
-      >
-        Open AI chat
-      </button>
-    );
+    return null;
   }
 
   return (
     <aside
       aria-label="AI chat"
-      className="fixed inset-y-0 right-0 z-20 flex w-full flex-col border-l border-[var(--stroke)] bg-white/95 shadow-[var(--shadow)] backdrop-blur sm:w-[380px]"
+      className="fixed inset-y-0 right-0 z-20 flex w-full flex-col border-l border-[var(--stroke)] bg-white shadow-[var(--shadow)] sm:w-[380px]"
     >
       <div className="flex items-center justify-between border-b border-[var(--stroke)] px-5 py-4">
         <div>
@@ -69,10 +63,12 @@ export const ChatSidebar = ({ onBoardUpdate }: ChatSidebarProps) => {
         </div>
         <button
           type="button"
-          onClick={() => setIsOpen(false)}
-          className="rounded-full border border-[var(--stroke)] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[var(--gray-text)] transition hover:text-[var(--navy-dark)]"
+          onClick={onClose}
+          aria-label="Close"
+          title="Close"
+          className="rounded-lg p-2 text-[var(--gray-text)] transition hover:bg-[var(--surface)] hover:text-[var(--navy-dark)]"
         >
-          Close
+          <CloseIcon />
         </button>
       </div>
 
@@ -116,9 +112,11 @@ export const ChatSidebar = ({ onBoardUpdate }: ChatSidebarProps) => {
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="rounded-full bg-[var(--secondary-purple)] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:brightness-110 disabled:opacity-50"
+          aria-label="Send"
+          title="Send"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--secondary-purple)] text-white transition hover:brightness-110 disabled:opacity-50"
         >
-          Send
+          <SendIcon />
         </button>
       </form>
     </aside>

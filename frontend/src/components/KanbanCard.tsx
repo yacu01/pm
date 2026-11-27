@@ -3,6 +3,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
 import type { Card } from "@/lib/kanban";
+import { PencilIcon, TrashIcon } from "@/components/icons";
 
 type KanbanCardProps = {
   card: Card;
@@ -42,9 +43,10 @@ export const KanbanCard = ({ card, onDelete, onEdit }: KanbanCardProps) => {
       ref={setNodeRef}
       style={style}
       className={clsx(
-        "rounded-2xl border border-transparent bg-white px-4 py-4 shadow-[0_12px_24px_rgba(3,33,71,0.08)]",
+        "group relative shrink-0 rounded-2xl border border-[var(--stroke)] bg-white px-3 py-3 shadow-[0_4px_12px_rgba(3,33,71,0.06)] hover:border-[var(--primary-blue)]/40",
         "transition-all duration-150",
-        isDragging && "opacity-60 shadow-[0_18px_32px_rgba(3,33,71,0.16)]"
+        !isEditing && "cursor-grab",
+        isDragging && "opacity-40 shadow-[0_18px_32px_rgba(3,33,71,0.16)]"
       )}
       {...(isEditing ? {} : { ...attributes, ...listeners })}
       data-testid={`card-${card.id}`}
@@ -83,28 +85,32 @@ export const KanbanCard = ({ card, onDelete, onEdit }: KanbanCardProps) => {
         </form>
       ) : (
         <div>
-          <h4 className="font-display text-base font-semibold text-[var(--navy-dark)]">
+          <h4 className="break-words pr-12 font-display text-sm font-semibold text-[var(--navy-dark)]">
             {card.title}
           </h4>
-          <p className="mt-2 text-sm leading-6 text-[var(--gray-text)]">
-            {card.details}
-          </p>
-          <div className="mt-3 flex gap-1">
+          {card.details && (
+            <p className="mt-1 break-words text-xs leading-5 text-[var(--gray-text)]">
+              {card.details}
+            </p>
+          )}
+          <div className="absolute right-1.5 top-1.5 flex rounded-lg bg-white opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100 pointer-coarse:opacity-100">
             <button
               type="button"
               onClick={startEditing}
-              className="rounded-full border border-transparent px-2 py-1 text-xs font-semibold text-[var(--primary-blue)] transition hover:border-[var(--stroke)]"
+              className="rounded-lg p-1.5 text-[var(--gray-text)] transition hover:bg-[var(--surface)] hover:text-[var(--primary-blue)]"
               aria-label={`Edit ${card.title}`}
+              title="Edit"
             >
-              Edit
+              <PencilIcon />
             </button>
             <button
               type="button"
               onClick={() => onDelete(card.id)}
-              className="rounded-full border border-transparent px-2 py-1 text-xs font-semibold text-[var(--gray-text)] transition hover:border-[var(--stroke)] hover:text-[var(--navy-dark)]"
+              className="rounded-lg p-1.5 text-[var(--gray-text)] transition hover:bg-red-50 hover:text-red-600"
               aria-label={`Delete ${card.title}`}
+              title="Delete"
             >
-              Remove
+              <TrashIcon />
             </button>
           </div>
         </div>

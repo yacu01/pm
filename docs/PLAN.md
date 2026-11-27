@@ -25,8 +25,9 @@ Runtime and tooling
 
 Frontend
 - Card editing is an inline form on the card (Edit, then Save/Cancel). Dragging and the drag ARIA attributes are turned off while editing; leaving them on marked the inputs `aria-disabled`.
-- Card Edit/Remove buttons sit in a row under the card text, so narrow cards do not overflow.
-- The AI chat is a drawer fixed to the right edge, closed by default and opened with a purple "Open AI chat" button. An inline sidebar was tried first, but at 1280px it shrank the board so far that cards overflowed and dropped below the fold.
+- Board fills the viewport under a slim header: columns are at least 220px wide and share the remaining width; below that the board scrolls horizontally, and each column scrolls its cards vertically.
+- Card edit and delete are icon buttons (inline SVG, `components/icons.tsx`) at the top right of the card, shown on hover or focus (always on touch screens).
+- The AI chat is a drawer fixed to the right edge, closed by default and opened with the purple "AI chat" button in the header. On screens 1536px and wider the board makes room for the open drawer instead of sitting under it. An inline sidebar was tried first, but at 1280px it shrank the board so far that cards overflowed and dropped below the fold.
 - Part 10 was built before Part 7. Until Part 7 lands, the UI starts from `initialData` and does not save manual edits, while the AI reads and saves the stored board; an AI reply replaces the on-screen board with the stored one.
 - Playwright runs against the Docker container at http://127.0.0.1:8000, so the container must be started first. E2E tests sign in first via `tests/helpers.ts`.
 

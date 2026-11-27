@@ -33,7 +33,6 @@ test("renames a column", async ({ page }) => {
   const title = page.locator('[data-testid^="column-"]').first().getByLabel("Column title");
   await title.fill("Renamed");
   await expect(title).toHaveValue("Renamed");
-  await expect(page.locator("header").getByText("Renamed")).toBeVisible();
 });
 
 test("moves a card between columns", async ({ page }) => {
